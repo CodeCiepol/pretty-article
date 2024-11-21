@@ -19,7 +19,7 @@ Before running this program, ensure the following dependencies are installed:
 
 3. Prepare the following files:
    - `artykul.txt` - your input article text 
-   - `szablon.html` - HTML template file (optional)
+   - `szablon.html` - HTML template file
 
 ## Usage
 
