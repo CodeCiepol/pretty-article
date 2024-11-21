@@ -53,7 +53,7 @@ prompt = f'Use appropriate HTML tags to structure given article content. Follow 
 # prepare the message
 def get_response_from_openai():
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",
