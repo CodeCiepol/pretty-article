@@ -6,43 +6,21 @@ from dotenv import load_dotenv
 
 
 def get_article_from_file(filename: str):
-    try:
-        with open(filename, "r", encoding="utf-8") as file:
-            article_str = file.read()
-        return article_str
-
-    except FileNotFoundError:
-        print(f"Error: The file '{filename}' was not found.")
-        return None
-
-    except IOError as e:
-        print("Error reading the file '{filename}':")
-        print(e)
-        return None
+    with open(filename, "r", encoding="utf-8") as file:
+        article_str = file.read()
+    return article_str
 
 
 def save_article(content: str, filename: str):
-    try:
-        with open(f"{filename}", "w", encoding="utf-8") as file:
-            file.write(content)
-            
-    except PermissionError:
-        print(f"Permission denied for file: {filename}")
-
-    except FileNotFoundError:
-        print(f"File path not found for: {filename}")
-
-    except OSError as e:
-        print(f"A system error occurred:")
-        print(e)
-
-    except Exception as e:
-        print(f"An unexpected error occurred:")
-        print(e)
+    with open(f"{filename}", "w", encoding="utf-8") as file:
+        file.write(content)
 
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
+
+if not API_KEY:
+    raise EnvironmentError("Missing API key. Ensure that the .env file contains the correct API_KEY variable.")
 
 output_language = "Polish"
 model = "gpt-4o-mini"
@@ -93,41 +71,13 @@ def get_response_from_openai():
 # get the response
 client = OpenAI(api_key=API_KEY)
 
-try:
-    response = get_response_from_openai()
-
-except openai.APIConnectionError as e:
-    print("The server could not be reached")
-    print(e.__cause__)
-
-except openai.RateLimitError as e:
-    print("A 429 status code was received; we should back off a bit.")
-
-except openai.APIStatusError as e:
-    print("Another non-200-range status code was received")
-    print(e.status_code)
-    print(e.response)
+response = get_response_from_openai()
 
 # Handle the response data
-try:
-    if response.choices:
-        message_content = response.choices[0].message.content
-        response_dict = json.loads(message_content)
-    else:
-        raise ValueError("No data in 'response.choices'")
+if not response.choices:
+    raise IndexError("No data in openai response.")
 
-except (IndexError, KeyError, AttributeError) as e:
-    print("Error accessing the response structure:")
-    print(e)
-    response_dict = None
-
-except json.JSONDecodeError as e:
-    print("Invalid JSON syntax in the response:")
-    print(e)
-    response_dict = None
-
-except ValueError as e:
-    print(e)
-    response_dict = None
+message_content = response.choices[0].message.content
+response_dict = json.loads(message_content)
 
 save_article(response_dict["article"], "artykul.html")
