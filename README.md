@@ -14,11 +14,12 @@ Before running this program, ensure the following dependencies are installed:
 ## Setup
 
 1. Create a `.env` file in the project root directory and add your OpenAI API key:
-   API_KEY=your_api_key_here
 
-2. Prepare the following files:
+   `API_KEY=your_api_key_here`
+
+3. Prepare the following files:
    - `artykul.txt` - your input article text 
-   - `szablon.html` - HTML template file (optional)
+   - `szablon.html` - HTML template file
 
 ## Usage
 
@@ -34,8 +35,8 @@ Before running this program, ensure the following dependencies are installed:
 ## Configuration
 
 You can modify these variables in the script:
-output_language = "Polish"  # Change the output language
-model = "gpt-4o-mini"      # Change the GPT model
+- `output_language = "Polish"` - Change the output language
+- `model = "gpt-4o-mini"` - Change the GPT model
 
 ## Output Format
 
@@ -43,4 +44,4 @@ The generated HTML will include:
 - Semantic HTML tags (`<article>`, `<h1>`, `<h2>`, `<p>`, etc.)
 - Image placeholders with descriptive alt text
 - Proper content hierarchy
-- Clean, formatted HTML structure"""
+- Clean, formatted HTML structure
